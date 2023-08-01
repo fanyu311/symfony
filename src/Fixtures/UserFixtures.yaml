@@ -1,0 +1,25 @@
+# On définit le namespace des objets que nous voulons générer
+App\Entity\User:
+  # on donne un nom à notre fixture
+  userAdmin:
+    #  on lui attribut les valeurs 
+    firstName: "Fanyu"
+    lastName: "Sun"
+    # 唯一的，没有重复的
+    email (unique): "admin@test.com"
+    roles: ["ROLE_ADMIN"]
+    # charger tout fixture
+    isVerified: true
+    # provider供应商-> il peut utiliser pour d'autre application 
+    password: <hashUserPassword('Test1234!')>
+
+
+# boucle ajout 10 users
+  user{1..10}:
+    firstName: <firstName()>
+    lastName: <lastName()>
+    # car unique -> va pas creeer les meme email
+    email (unique): <email()>
+    isVerified: <boolean()>
+    password: <hashUserPassword('Test1234!')>
+   
