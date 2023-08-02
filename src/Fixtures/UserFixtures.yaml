@@ -10,11 +10,11 @@ App\Entity\User:
     roles: ["ROLE_ADMIN"]
     # charger tout fixture
     isVerified: true
-    # provider供应商-> il peut utiliser pour d'autre application 
+    # provider(furniseur)供应商-> il peut utiliser pour d'autre application 
     password: <hashUserPassword('Test1234!')>
 
 
-# boucle ajout 10 users
+# boucle ajout 10 users-> les fonctions ->cherche faker
   user{1..10}:
     firstName: <firstName()>
     lastName: <lastName()>

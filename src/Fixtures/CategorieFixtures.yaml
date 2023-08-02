@@ -1,4 +1,5 @@
 App\Entity\Categorie:
   tag{1..10}:
+    # fonction nous meme creer pour envoie random les categories
     title (unique): <generateTagTitle()> 
     enable: true

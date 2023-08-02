@@ -29,11 +29,17 @@ services:
 
 # nouveau service symfony-> fini les options
     App\Fixtures\Providers\UserProvider:
-        # cette class pour gerer les donner 
+        # cette class pour gerer les donner ->categorie (provider comme faker)
         tags: [ { name: nelmio_alice.faker.provider }]
 
     App\Fixtures\Providers\CategorieProvider:
         # cette class pour gerer les donner 
         tags: [ { name: nelmio_alice.faker.provider }]
+
+    App\Fixtures\Providers\ArticleProvider:
+        # cette class pour gerer les donner 
+        tags: [ { name: nelmio_alice.faker.provider }]
+
+    
         
         

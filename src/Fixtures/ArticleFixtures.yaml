@@ -1,0 +1,23 @@
+# table de relation atacher a user et categories
+include:
+   - CategorieFixtures.yaml
+   - UserFixtures.yaml
+
+App\Entity\Article:
+    article{1..50}:
+        title (unique): <words(2, true)>
+        # generer les phrases -> sentence
+        metaTitle: <sentence(5)>
+        metaDescription: <sentence(10)>
+        # avec balise html
+        content: <generateArticleContent()>
+        enable: <boolean()>
+        # 与entity->article里定义的是datetimeimmutable，所以要去articleprovider里去创建一个相关的
+        createdAt: <generateArticleDate()>
+        # relation aves table user-> dans le fichier de userfixture chercher le @user* ->所有的random的user 之后就随机跟一个categorie链接在一起
+        user: "@user*"
+        # apple un function -> utilis ''
+        # chois 1-5 de oasare de categories fois tag 
+        categories: "<numberBetween(1, 5)>x @tag*"
+        # utilise le fonction pour creer une ou plusieur images
+        images: "<numberBetween(1, 3)>x <uploadArticleImage()>"

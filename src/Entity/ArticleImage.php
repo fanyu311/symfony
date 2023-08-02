@@ -71,7 +71,7 @@ class ArticleImage
      *
      * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile|null $imageFile
      */
-    public function setImage(?File $imageFile = null): void
+    public function setImage(?File $imageFile = null): self
     {
         $this->image = $imageFile;
 
@@ -80,6 +80,8 @@ class ArticleImage
             // otherwise the event listeners won't be called and the file is lost
             $this->updatedAt = new \DateTimeImmutable();
         }
+
+        return $this;
     }
 
     public function getImage(): ?File
