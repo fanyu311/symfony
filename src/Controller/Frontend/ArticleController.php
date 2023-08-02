@@ -5,6 +5,8 @@ namespace App\Controller\Frontend;
 use App\Entity\Article;
 use App\Entity\Commentaire;
 use App\Form\CommentaireType;
+use App\Search\SearchArticle;
+use App\Form\SearchArticleType;
 use App\Repository\ArticleRepository;
 use App\Repository\CommentaireRepository;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,10 +25,22 @@ class ArticleController extends AbstractController
     }
 
     #[Route('', name: '.index', methods: ['GET'])]
-    public function index(): Response
+    public function index(Request $request): Response
     {
+        // instance 
+        $filter = new SearchArticle();
+
+        // objet -> $filter
+        $form = $this->createForm(SearchArticleType::class, $filter);
+        $form->handleRequest($request);
+
+        // function custom 自定义功能
+        $articles = $this->repo->findSearch($filter);
+        dump($filter);
+
         return $this->render('Frontend/Article/index.html.twig', [
-            'articles' => $this->repo->findLatest(),
+            'articles' => $articles,
+            'form' => $form
         ]);
     }
 

@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Article;
+use App\Search\SearchArticle;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
@@ -88,6 +89,45 @@ class ArticleRepository extends ServiceEntityRepository
             ->where('a.enable = :enable')
             ->setParameter('enable', true)
             ->orderBy('a.createdAt', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * function for filter article in db
+     *
+     * @param SearchArticle $search object of the client search
+     * @return array of article
+     */
+    public function findSearch(SearchArticle $search): array
+    {
+        $query = $this->createQueryBuilder('a')
+            ->select('a', 'u', 'c', 'i', 'co')
+            ->innerJoin('a.user', 'u')
+            ->leftJoin('a.categories', 'c')
+            ->leftJoin('a.images', 'i')
+            ->leftJoin('a.commentaires', 'co')
+            ->andWhere('a.enable = true');
+
+        // si le title n'est pas vide -> filter les titles
+        if (!empty($search->getTitle())) {
+            $query->andWhere('a.title LIKE :title')
+                // dynamiquemant le title -> %title%
+                ->setParameter('title', "%{$search->getTitle()}%");
+        }
+
+        if (!empty($search->getTags())) {
+            // in->filter title de categories -> comme boucle for en sql->passe un tableau 
+            $query->andWhere('c.id IN (:tags)')
+                ->setParameter('tags', $search->getTags());
+        }
+
+        if (!empty($search->getAuthors())) {
+            $query->andWhere('u.id IN (:users)')
+                ->setParameter('users', $search->getAuthors());
+        }
+
+        return $query
             ->getQuery()
             ->getResult();
     }

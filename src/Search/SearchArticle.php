@@ -1,0 +1,88 @@
+<?php
+// toute les information chercher a les fichiers
+// un seul propieter de title tags et authors
+
+namespace App\Search;
+
+class SearchArticle
+{
+    public function __construct(
+        // la recherche sur le title et tags et authors
+        private ?string $title = null,
+        private ?array $tags = [],
+        private ?array $authors = [],
+    ) {
+    }
+
+    /**
+     * Get the value of title
+     *
+     * @return ?string
+     */
+    public function getTitle(): ?string
+    {
+        return $this->title;
+    }
+
+    /**
+     * Set the value of title
+     *
+     * @param ?string $title
+     *
+     * @return self
+     */
+    public function setTitle(?string $title): self
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of tags
+     *
+     * @return ?array
+     */
+    public function getTags(): ?array
+    {
+        return $this->tags;
+    }
+
+    /**
+     * Set the value of tags
+     *
+     * @param ?array $tags
+     *
+     * @return self
+     */
+    public function setTags(?array $tags): self
+    {
+        $this->tags = $tags;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of authors
+     *
+     * @return ?array
+     */
+    public function getAuthors(): ?array
+    {
+        return $this->authors;
+    }
+
+    /**
+     * Set the value of authors
+     *
+     * @param ?array $authors
+     *
+     * @return self
+     */
+    public function setAuthors(?array $authors): self
+    {
+        $this->authors = $authors;
+
+        return $this;
+    }
+}
