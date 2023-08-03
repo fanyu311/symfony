@@ -6,17 +6,23 @@
 {% endblock %}
 
 {% block body %}
-	<section class="container mt-4 js-filter-content">
+	<section class="container mt-4 js-filter">
 		<h1 class="text-center">Liste de nos articles</h1>
-
 		<div class="row mt-4">
 			<div class="col-md-3">
 				{% include 'Components/_formSearch.html.twig' with {form: form} only %}
+				{# on lui passe seulement la variable $form mais pas la variable $articles #}
 			</div>
 			<div class="col-md-9">
-				{% include 'Components/_articleList.html.twig' with { articles: articles} only %}
+				<div class="d-flex justify-content-between mb-2">
+					{% include 'Components/_count.html.twig' %}
+					<div class="d-flex justify-content-end gap-2 js-filter-sorting">
+						{% include 'Components/_sorting.html.twig' %}
+					</div>
+				</div>
+				{% include 'Components/_articleList.html.twig' with {articles: articles} only %}
+				{% include 'Components/_pagination.html.twig' with {articles: articles} only %}
 			</div>
 		</div>
-
 	</section>
 {% endblock %}

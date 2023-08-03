@@ -1,8 +1,10 @@
-<div class="blog-list">
+{# js-quelque chose pour faire js ,pour css rien de changer #}
+<div class="blog-list js-filter-content">
 	{% for article in articles %}
 		{% include 'Components/_articleCard.html.twig' %}
 	{% else %}
-		<div class="alert alert-info" role="" alert>
+		{# pas de contu pas de article--> id #}
+		<div class="alert alert-info" role="alert" id="article-no-content">
 			<i class="bi bi-info-square-fill"></i>
 			<p>Aucun article ne correspond à votre recherche</p>
 		</div>

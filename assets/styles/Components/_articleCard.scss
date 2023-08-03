@@ -48,3 +48,12 @@
         }
     }
 }
+
+
+.js-filter {
+    .blog-list {
+        width: 100%;
+        // les cards meme taille
+        align-items: stretch;
+    }
+}

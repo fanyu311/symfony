@@ -5,6 +5,8 @@ namespace App\Repository;
 use App\Entity\Article;
 use App\Search\SearchArticle;
 use Doctrine\Persistence\ManagerRegistry;
+use Knp\Component\Pager\PaginatorInterface;
+use Knp\Component\Pager\Pagination\PaginationInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
@@ -17,8 +19,10 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
  */
 class ArticleRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
-    {
+    public function __construct(
+        ManagerRegistry $registry,
+        private PaginatorInterface $paginator
+    ) {
         parent::__construct($registry, Article::class);
     }
 
@@ -99,7 +103,7 @@ class ArticleRepository extends ServiceEntityRepository
      * @param SearchArticle $search object of the client search
      * @return array of article
      */
-    public function findSearch(SearchArticle $search): array
+    public function findSearch(SearchArticle $search): PaginationInterface
     {
         $query = $this->createQueryBuilder('a')
             ->select('a', 'u', 'c', 'i', 'co')
@@ -127,9 +131,17 @@ class ArticleRepository extends ServiceEntityRepository
                 ->setParameter('users', $search->getAuthors());
         }
 
-        return $query
-            ->getQuery()
-            ->getResult();
+        $query->getQuery();
+        return $this->paginator->paginate(
+            // passe tout les bdd
+            $query,
+            // numero le page -> 1页
+            // 1,
+            // recuperer dans le page -> 在searcharticle->创建getpage
+            $search->getPage(),
+            // totalement 6 produit-> 6个；产品
+            6
+        );
     }
 
     //    /**

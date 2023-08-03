@@ -30,6 +30,9 @@ class ArticleController extends AbstractController
         // instance 
         $filter = new SearchArticle();
 
+        // page 1 par default
+        $filter->setPage($request->query->get('page', 1));
+
         // objet -> $filter
         $form = $this->createForm(SearchArticleType::class, $filter);
         $form->handleRequest($request);

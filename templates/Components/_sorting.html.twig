@@ -1,0 +1,8 @@
+{# generer le bouton de filter  #}
+
+{# ->分解代码 #}
+{# date-> label de boutton #}
+{# a.createdAt-> qule champ orderby #}
+{# desc-> premiere fois cilque sur le boutton quel vont sorti #}
+{{ knp_pagination_sortable(articles, 'Date', 'a.createdAt', {'direction': 'desc', 'class': 'btn btn-primary d-flex gap-1'}) }}
+{{ knp_pagination_sortable(articles, 'Nom', 'a.title', {'direction': 'asc', 'class': 'btn btn-primary d-flex gap-1'}) }}
