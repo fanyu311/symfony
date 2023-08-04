@@ -1,4 +1,5 @@
-<div class="blog-card">
+{# id = unique id => id="article-{{ article.id }} #}
+<div class="blog-card" id="article-{{ article.id }}">
 	<div class="blog-card-img">
 		<a href="{{ path('app.articles.show', {slug: article.slug}) }}">
 			{% for image in article.images|slice(0,1) %}

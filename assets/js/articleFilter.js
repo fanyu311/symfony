@@ -1,4 +1,6 @@
 import { debounce } from 'lodash';
+// install -> import
+import { Flipper, spring } from 'flip-toolkit';
 
 /**
  * class filter for search article in ajax
@@ -39,7 +41,7 @@ export class Filter {
         // ajout tout comportement à l'exterieux de ton function 
         this.bindEvents()
 
-        console.error(this.page);
+       
     }
 
     /**
@@ -133,13 +135,8 @@ export class Filter {
             // ajout et prepare tout les components
             this.sorting.innerHTML = data.sorting;
 
-            // 如果append=>true 就在页面添加以后再点击 voir plus 直接添加第二页的内容
-            if (append) {
-                // 合并
-                this.content.innerHTML += data.content
-            } else {
-                this.content.innerHTML = data.content;
-            }
+            // modifier connu-> ajout ou remplace
+            this.animationContent(data.content, append);
 
             // si on n'a pas le button => voir plus
             // toujours y a le button => voir plus
@@ -221,7 +218,93 @@ export class Filter {
         //禁止affiche的button 换成remove
         button.removeAttribute('disabled');
     }
-    
+
+
+    /**
+     * add animation for update content
+     * @param {string} newContent - string with html code of the new liste of article
+     * @param {bool} append - if replace the content or append the existing content on the page 
+     * 
+     */
+    animationContent(newContent, append) {
+        // configuration a animation
+        const springName = 'veryGentle';
+
+        //exitAnimation-> card sort
+        const exitAnimation = (element, index, onComplete) => {
+            // import en haut 
+            spring({
+                // principe de animations resort ou pas 
+                // config: 'stiff',
+                values: {
+                    // debut et fin -> monter et descendre 
+                    translateY: [0, -20],
+                    opacity: [1, 0]
+                },
+                // flipper etudier values 
+                onUpdate: ({ translateY, opacity }) => {
+                    element.style.opacity = opacity;
+                    // passe le temp de translate px
+                    element.style.transform = `translateY(${translateY}px)`;
+                },
+                // animation fini-> 最后完成需要做的事情，目前先这样
+                onComplete
+            });
+        }
+
+        const appearAnimation = (element, index) => {
+            // function spring
+            spring({
+                values: {
+                    translateY: [-20, 0],
+                    opacity: [0, 1]
+                },
+                onUpdate: ({ translateY, opacity }) => {
+                    element.style.opacity = opacity;
+                    element.style.transform = `translateY(${translateY}px`;
+                },
+                delay: index * 10,
+            });
+        }
+
+
+        const flipper = new Flipper({
+            element: this.content,
+        });
+
+        // tout les enfants de la liste -> quand il'est un parent ->acutellement sur le page 
+        let articleCards = this.content.children;
+        for (let card of articleCards) {
+            flipper.addFlipped({
+                element: card,
+                // ici id vient de dossier _articleCard.html.twig 
+                flipId: card.id,
+                // juste les cards bouge 
+                spring: springName,
+                onExit: exitAnimation,
+            });
+        }
+
+        flipper.recordBeforeUpdate();
+
+        if(append){
+            this.content.innerHTML += newContent;
+        } else {
+            this.content.innerHTML = newContent;
+        }
+
+        articleCards = this.content.children;
+        for (let card of articleCards) { 
+            flipper.addFlipped({
+                element: card,
+                flipId: card.id,
+                spring: springName,
+                onAppear: appearAnimation,
+            })
+        }
+
+        flipper.update();
+    } 
     /**
      * show the loader of the form
      */
@@ -231,7 +314,7 @@ export class Filter {
         const loader = this.form.querySelector('.js-loading');
         loader.style.display = 'block';
         loader.setAttribute('aria-hidden', 'false');
-    }
+        }
 
     // plus affiche
     /**
