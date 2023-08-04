@@ -1,12 +1,13 @@
 {# js-quelque chose pour faire js ,pour css rien de changer #}
-<div class="blog-list js-filter-content">
-	{% for article in articles %}
-		{% include 'Components/_articleCard.html.twig' %}
-	{% else %}
-		{# pas de contu pas de article--> id #}
-		<div class="alert alert-info" role="alert" id="article-no-content">
+
+{% for article in articles %}
+	{% include 'Components/_articleCard.html.twig' %}
+{% else %}
+	{# pas de contu pas de article--> id #}
+	<div class="alert alert-info w-100" role="alert" id="article-no-content">
+		<p>
 			<i class="bi bi-info-square-fill"></i>
-			<p>Aucun article ne correspond à votre recherche</p>
-		</div>
-	{% endfor %}
-</div>
+			Aucun article ne correspond à votre recherche
+		</p>
+	</div>
+{% endfor %}

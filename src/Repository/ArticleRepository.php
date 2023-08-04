@@ -101,7 +101,7 @@ class ArticleRepository extends ServiceEntityRepository
      * function for filter article in db
      *
      * @param SearchArticle $search object of the client search
-     * @return array of article
+     * @return PaginationInterface of article
      */
     public function findSearch(SearchArticle $search): PaginationInterface
     {

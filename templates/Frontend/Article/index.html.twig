@@ -20,7 +20,10 @@
 						{% include 'Components/_sorting.html.twig' %}
 					</div>
 				</div>
-				{% include 'Components/_articleList.html.twig' with {articles: articles} only %}
+				<div class="blog-list js-filter-content">
+					{% include 'Components/_articleList.html.twig' with {articles: articles} only %}
+				</div>
+
 				{% include 'Components/_pagination.html.twig' with {articles: articles} only %}
 			</div>
 		</div>

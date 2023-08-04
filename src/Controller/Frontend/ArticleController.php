@@ -12,6 +12,7 @@ use App\Repository\CommentaireRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -25,7 +26,7 @@ class ArticleController extends AbstractController
     }
 
     #[Route('', name: '.index', methods: ['GET'])]
-    public function index(Request $request): Response
+    public function index(Request $request): Response|JsonResponse
     {
         // instance 
         $filter = new SearchArticle();
@@ -37,9 +38,36 @@ class ArticleController extends AbstractController
         $form = $this->createForm(SearchArticleType::class, $filter);
         $form->handleRequest($request);
 
-        // function custom 自定义功能
+        // function custom 自定义功能->findSearch检查是否是ajax ou pas
         $articles = $this->repo->findSearch($filter);
-        dump($filter);
+
+        // sur le ajax-> return json
+        if ($request->query->get('ajax')) {
+            /**
+             * on envoie la réponse en JSON avec le nouveau code HTML de chaque composants de la page 
+             */
+            // class de symfony repondre le json par ajax
+            return new JsonResponse([
+                // chemin vers le content/sorting/pagination/count
+                'content' => $this->renderView('Components/_articleList.html.twig', [
+                    // recuperer avec findSearch
+                    'articles' => $articles,
+                ]),
+                'sorting' => $this->renderView('Components/_sorting.html.twig', [
+                    'articles' => $articles
+                ]),
+                'pagination' => $this->renderView('Components/_pagination.html.twig', [
+                    'articles' => $articles
+                ]),
+                'count' => $this->renderView('Components/_count.html.twig', [
+                    'articles' => $articles
+                ]),
+                // nombre de total de page  => 1 / 2 
+                // -> 1.nombre de article total
+                // -> 2. nombre de article par page 
+                'totalPage' => ceil($articles->getTotalItemCount() / $articles->getItemNumberPerPage()),
+            ]);
+        }
 
         return $this->render('Frontend/Article/index.html.twig', [
             'articles' => $articles,

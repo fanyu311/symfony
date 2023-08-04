@@ -12,3 +12,9 @@ import './styles/app.scss';
 require('bootstrap');
 
 import './js/swiperArticle.js';
+
+// on import la class de filtre
+// {} -> il peut import plusieur chose -> class / function etc ...-> instencier ta class 
+import { Filter } from './js/articleFilter.js';
+// on instancie la class en lui passant l'élement HTML parent 
+new Filter(document.querySelector('.js-filter'));
