@@ -5,16 +5,16 @@ namespace App\Controller\Frontend;
 use App\Entity\Article;
 use App\Entity\Commentaire;
 use App\Form\CommentaireType;
-use App\Search\SearchArticle;
 use App\Form\SearchArticleType;
 use App\Repository\ArticleRepository;
 use App\Repository\CommentaireRepository;
+use App\Search\SearchArticle;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/articles', name: 'app.articles')]
 class ArticleController extends AbstractController
@@ -28,7 +28,7 @@ class ArticleController extends AbstractController
     #[Route('', name: '.index', methods: ['GET'])]
     public function index(Request $request): Response|JsonResponse
     {
-        // instance 
+        // instance
         $filter = new SearchArticle();
 
         // page 1 par default
@@ -43,8 +43,8 @@ class ArticleController extends AbstractController
 
         // sur le ajax-> return json
         if ($request->query->get('ajax')) {
-            /**
-             * on envoie la réponse en JSON avec le nouveau code HTML de chaque composants de la page 
+            /*
+             * on envoie la réponse en JSON avec le nouveau code HTML de chaque composants de la page
              */
             // class de symfony repondre le json par ajax
             return new JsonResponse([
@@ -54,24 +54,24 @@ class ArticleController extends AbstractController
                     'articles' => $articles,
                 ]),
                 'sorting' => $this->renderView('Components/_sorting.html.twig', [
-                    'articles' => $articles
+                    'articles' => $articles,
                 ]),
                 'pagination' => $this->renderView('Components/_pagination.html.twig', [
-                    'articles' => $articles
+                    'articles' => $articles,
                 ]),
                 'count' => $this->renderView('Components/_count.html.twig', [
-                    'articles' => $articles
+                    'articles' => $articles,
                 ]),
-                // nombre de total de page  => 1 / 2 
+                // nombre de total de page  => 1 / 2
                 // -> 1.nombre de article total
-                // -> 2. nombre de article par page 
+                // -> 2. nombre de article par page
                 'totalPage' => ceil($articles->getTotalItemCount() / $articles->getItemNumberPerPage()),
             ]);
         }
 
         return $this->render('Frontend/Article/index.html.twig', [
             'articles' => $articles,
-            'form' => $form
+            'form' => $form,
         ]);
     }
 
@@ -107,7 +107,7 @@ class ArticleController extends AbstractController
         return $this->render('Frontend/Article/show.html.twig', [
             'article' => $article,
             'commentaires' => $this->repoComment->findActiveByArticle($article),
-            'form' => $form
+            'form' => $form,
         ]);
     }
 }

@@ -1,4 +1,5 @@
 <?php
+
 // toute les information chercher a les fichiers
 // un seul propieter de title tags et authors
 
@@ -16,7 +17,7 @@ class SearchArticle
     }
 
     /**
-     * Get the value of title
+     * Get the value of title.
      *
      * @return ?string
      */
@@ -26,7 +27,7 @@ class SearchArticle
     }
 
     /**
-     * Set the value of title
+     * Set the value of title.
      *
      * @param ?string $title
      *
@@ -40,7 +41,7 @@ class SearchArticle
     }
 
     /**
-     * Get the value of tags
+     * Get the value of tags.
      *
      * @return ?array
      */
@@ -50,7 +51,7 @@ class SearchArticle
     }
 
     /**
-     * Set the value of tags
+     * Set the value of tags.
      *
      * @param ?array $tags
      *
@@ -64,7 +65,7 @@ class SearchArticle
     }
 
     /**
-     * Get the value of authors
+     * Get the value of authors.
      *
      * @return ?array
      */
@@ -74,7 +75,7 @@ class SearchArticle
     }
 
     /**
-     * Set the value of authors
+     * Set the value of authors.
      *
      * @param ?array $authors
      *
@@ -88,7 +89,7 @@ class SearchArticle
     }
 
     /**
-     * Get the value of page
+     * Get the value of page.
      *
      * @return int
      */
@@ -98,7 +99,7 @@ class SearchArticle
     }
 
     /**
-     * Set the value of page
+     * Set the value of page.
      *
      * @param int $page
      *

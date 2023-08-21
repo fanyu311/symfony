@@ -4,10 +4,10 @@ namespace App\Repository;
 
 use App\Entity\Article;
 use App\Search\SearchArticle;
-use Doctrine\Persistence\ManagerRegistry;
-use Knp\Component\Pager\PaginatorInterface;
-use Knp\Component\Pager\Pagination\PaginationInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Persistence\ManagerRegistry;
+use Knp\Component\Pager\Pagination\PaginationInterface;
+use Knp\Component\Pager\PaginatorInterface;
 
 /**
  * @extends ServiceEntityRepository<Article>
@@ -56,13 +56,14 @@ class ArticleRepository extends ServiceEntityRepository
     }
 
     /**
-     * Find the latest article with limit or not and all article or just enable article
+     * Find the latest article with limit or not and all article or just enable article.
      *
-     * @param integer|null $limit
-     * @param boolean $actif
+     * @param int|null $limit
+     * @param bool     $actif
+     *
      * @return array
      */
-    public function findLatest(?int $limit = null, bool $actif = true): array
+    public function findLatest(int $limit = null, bool $actif = true): array
     {
         $query = $this->createQueryBuilder('a')
             ->select('a', 'u', 'c', 'i')
@@ -98,9 +99,10 @@ class ArticleRepository extends ServiceEntityRepository
     }
 
     /**
-     * function for filter article in db
+     * function for filter article in db.
      *
      * @param SearchArticle $search object of the client search
+     *
      * @return PaginationInterface of article
      */
     public function findSearch(SearchArticle $search): PaginationInterface
@@ -121,7 +123,7 @@ class ArticleRepository extends ServiceEntityRepository
         }
 
         if (!empty($search->getTags())) {
-            // in->filter title de categories -> comme boucle for en sql->passe un tableau 
+            // in->filter title de categories -> comme boucle for en sql->passe un tableau
             $query->andWhere('c.id IN (:tags)')
                 ->setParameter('tags', $search->getTags());
         }
@@ -132,6 +134,7 @@ class ArticleRepository extends ServiceEntityRepository
         }
 
         $query->getQuery();
+
         return $this->paginator->paginate(
             // passe tout les bdd
             $query,

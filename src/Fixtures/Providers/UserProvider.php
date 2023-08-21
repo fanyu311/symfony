@@ -13,11 +13,11 @@ class UserProvider
         private UserPasswordHasherInterface $hasher
     ) {
     }
+
     // retourne string -> password
     public function hashUserPassword(string $plainPassword): string
     {
-
         // 返回的是一个新的user跟一个plainPassword
-        return $this->hasher->hashPassword(new User, $plainPassword);
+        return $this->hasher->hashPassword(new User(), $plainPassword);
     }
 }

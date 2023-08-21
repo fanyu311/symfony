@@ -2,17 +2,16 @@
 
 namespace App\Form;
 
-use App\Entity\User;
 use App\Entity\Categorie;
+use App\Entity\User;
 use App\Search\SearchArticle;
-use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\EntityRepository;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilderInterface;
+use Doctrine\ORM\QueryBuilder;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class SearchArticleType extends AbstractType
 {
@@ -29,7 +28,7 @@ class SearchArticleType extends AbstractType
             // generer le liste dans une talbe (entity) -> entityType
             ->add('tags', EntityType::class, [
                 'label' => 'Catégories:',
-                'class' =>  Categorie::class,
+                'class' => Categorie::class,
                 'choice_label' => 'title',
                 // chercher custom
                 // 寻找到relation的table的内容，按照enable是true的情况下并且是按照从高到低的排序里的所有article排序出来
@@ -43,15 +42,14 @@ class SearchArticleType extends AbstractType
                 'expanded' => true,
                 'multiple' => true,
                 // pas obligatoire soumi sur une formulaire
-                'required' => false
-
+                'required' => false,
             ])
             // ajout un champ
             ->add('authors', EntityType::class, [
                 'label' => 'Autheurs:',
                 'class' => User::class,
                 'choice_label' => 'fullName',
-                // ça pour pas le article 
+                // ça pour pas le article
                 'query_builder' => function (EntityRepository $er): QueryBuilder {
                     return $er->createQueryBuilder('u')
                         // utilisateur pas de article
@@ -74,12 +72,11 @@ class SearchArticleType extends AbstractType
             'method' => 'GET',
             // par default toujour un token-> enleve
             'csrf_protection' => false,
-
         ]);
     }
 
     // bloque prefix
-    // prend le nom de registrationform 
+    // prend le nom de registrationform
     // nettoyer le url -> le champ nom de prefix (前缀名称字段)
     public function getBlockPrefix(): string
     {

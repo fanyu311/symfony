@@ -17,7 +17,7 @@ class CategorieProvider
             'Javascript',
             'Sass',
             'HTML',
-            'CSS'
+            'CSS',
         ];
 
         // return $tags[0] 最终得到的是随机的一个tableau里的一个index的内容，而不是数字
