@@ -18,3 +18,5 @@ import './js/swiperArticle.js';
 import { Filter } from './js/articleFilter.js';
 // on instancie la class en lui passant l'élement HTML parent 
 new Filter(document.querySelector('.js-filter'));
+
+import "./js/showPassword.js";
